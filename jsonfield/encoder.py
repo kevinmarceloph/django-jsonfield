@@ -1,3 +1,4 @@
+from django.db.models.fields.files import FieldFile
 from django.db.models.query import QuerySet
 from django.utils import six, timezone
 from django.utils.encoding import force_text
@@ -46,6 +47,8 @@ class JSONEncoder(json.JSONEncoder):
             return six.text_type(obj)
         elif isinstance(obj, QuerySet):
             return tuple(obj)
+        elif isinstance(obj, FieldFile):
+            return obj.path if obj else ''
         elif hasattr(obj, 'tolist'):
             # Numpy arrays and array scalars.
             return obj.tolist()
